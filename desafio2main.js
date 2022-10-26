@@ -23,9 +23,9 @@ let producto3 ={
     title:"Auriculares PS5",
     price:4200,
     thumbnail:"https://arsonyb2c.vtexassets.com/arquivos/ids/348062/PS5_WHS_Pshot_A.jpg?v=637363806123470000"
-
 }
-metodos=async()=>{
+
+const metodos = async () => {
    console.log( await contenedor.save(producto1))
    console.log( await contenedor.save(producto2))
   console.log( await contenedor.save(producto3))
@@ -33,3 +33,5 @@ metodos=async()=>{
 console.log(await contenedor.deleteById()) 
 }
  metodos()
+
+ module.exports = contenedor
