@@ -1,4 +1,6 @@
 node_modules/
 notas.txt
-
-*js
+desafio1.js,
+desafio2Contenedor.js,
+desafio2main.js,
+desafio3.js
