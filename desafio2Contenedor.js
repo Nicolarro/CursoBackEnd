@@ -8,8 +8,8 @@ class Contenedor {
 
   async save(producto) {
     try {
-      if (fs.existsSync(this.archivo) ) {
-        let productos = await this.getAll()
+      if (fs.existsSync(this.archivo)) {
+        let productos = await this.getAll();
         if (productos.length > 0) {
           let lastId = productos[productos.length - 1].id + 1;
           let newProduct = {
@@ -29,21 +29,7 @@ class Contenedor {
             id: lastId,
             ...producto,
           };
-
-          productos.push(newProduct);
-          await fs.promises.writeFile(
-            this.archivo,
-            JSON.stringify(productos, null, 2)
-          );
-          return lastId;
         }
-      } else {
-        let newProduct = {
-          id: 1,
-          title: producto.title,
-          price: producto.price,
-          thumbnail: producto.thumbnail,
-        };
         await fs.promises.writeFile(
           this.archivo,
           JSON.stringify([newProduct], null, 2)
@@ -57,7 +43,7 @@ class Contenedor {
   async getAll() {
     try {
       if (fs.existsSync(this.archivo)) {
-        let info = await fs.promises.readFile(this.archivo, "utf8");
+        let info = await fs.promises.readFile(this.archivo, "utf-8");
         let result = JSON.parse(info);
         return result;
       } else {
@@ -98,11 +84,11 @@ class Contenedor {
   }
 }
 
-const ejecutarContenedor = () => {
+const ejecutarContenedor = async () => {
+  let contenedor = new Contenedor("productos.txt")
+  console.log(await contenedor.save())
+};
 
-
-let contenedor = new Contenedor("productos.txt");
-
-}
+ejecutarContenedor();
 
 module.exports = Contenedor;

@@ -29,9 +29,6 @@ const metodos = async () => {
    console.log( await contenedor.save(producto1))
    console.log( await contenedor.save(producto2))
   console.log( await contenedor.save(producto3))
- console.log(await contenedor.getAll())
-console.log(await contenedor.deleteById()) 
+
 }
  metodos()
-
- module.exports = contenedor
