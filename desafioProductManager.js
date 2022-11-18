@@ -63,11 +63,9 @@ console.log(instancia)
 
 
 
-instancia.addProduct("prueba1", "prueba2", 50, "description", 500, 1000)
-instancia.addProduct("prueba1", "prueba2", 50, "description", 500, 1000)
-console.log(instancia.products)
-
-
+console.log(instancia.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25))
+console.log(instancia.getProducts())
+console.log(instancia.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25))
 console.log(instancia.getProductById(1))
 
 
