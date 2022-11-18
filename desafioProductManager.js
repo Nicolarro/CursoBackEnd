@@ -2,7 +2,7 @@ class ProductManager {
   constructor() {
     this.products = [];
   }
-  debugger;
+
   getProducts = () => {
     return this.products;
   };
@@ -25,17 +25,21 @@ class ProductManager {
       stock,
     };
 
-    this.products.push(product);
+    this.products.push(product)
+
+    
 
     if (this.products.lenght == 0) {
-      console.log(products);
+/*       console.log(products); */
       return products;
     } else {
       const listadoProductos = this.products.push(product);
-      console.log(listadoProductos);
+/*       console.log(listadoProductos); */
       return listadoProductos;
     }
   };
+
+
 
   getProductById = (param) => {
     const busqueda = products.find(({ id }) => this.products.id === param);
@@ -50,4 +54,11 @@ class ProductManager {
 
 const instancia = new ProductManager();
 
-console.log(instancia.addProduct());
+
+const handlingProducts = () => {
+instancia.addProduct("prueba1", "prueba2", 50, "description", 500, 1000)
+console.log(instancia.getProducts())
+/* console.log(instancia.products) */
+}
+
+handlingProducts()
