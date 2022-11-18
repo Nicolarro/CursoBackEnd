@@ -15,8 +15,11 @@ class ProductManager {
   };
 
   addProduct = (title, description, price, thumbnail, code, stock) => {
+
+    const id = this.getNextID();
+
     const product = {
-      id: this.getNextID(),
+      id,
       title,
       description,
       price,
@@ -25,40 +28,49 @@ class ProductManager {
       stock,
     };
 
-    this.products.push(product)
-
-    
+    if (!this.products.includes(product.code)) {
+      return this.products.push(product)
+    }
+    else {
+      console.log("El codigo ingresado ya se encuentra agregado")
+    }
 
     if (this.products.lenght == 0) {
-/*       console.log(products); */
-      return products;
+      return this.products;
+
     } else {
       const listadoProductos = this.products.push(product);
-/*       console.log(listadoProductos); */
+
       return listadoProductos;
     }
   };
 
 
 
-  getProductById = (param) => {
-    const busqueda = products.find(({ id }) => this.products.id === param);
-    if (busqueda.lenght > 0) {
-      console.log(busqueda);
-      return busqueda;
+  getProductById = ({ id }) => {
+    const busqueda = this.products.find((product) => product.id === id);
+    if (busqueda == undefined) {
+      return console.log("Not Found")
     } else {
-      console.log("Not found");
+      return product.title;
     }
   };
 }
 
 const instancia = new ProductManager();
 
+console.log(instancia)
 
-const handlingProducts = () => {
+
+
 instancia.addProduct("prueba1", "prueba2", 50, "description", 500, 1000)
-console.log(instancia.getProducts())
-/* console.log(instancia.products) */
-}
+instancia.addProduct("prueba1", "prueba2", 50, "description", 500, 1000)
+console.log(instancia.products)
 
-handlingProducts()
+
+console.log(instancia.getProductById(1))
+
+
+
+/* const sameId = (element) => element == product.id;if (!this.products.some(sameId)) {this.products.push(product)} else {console.log("An id is duplicated") */
+
