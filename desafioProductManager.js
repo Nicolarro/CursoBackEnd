@@ -4,19 +4,18 @@ class ProductManager {
   }
 
   getProducts = () => {
-    return this.products;
+    return console.log(this.products);
   };
 
-  getNextID = () => {
+  getProductID = () => {
     const count = this.products.length;
-    const nextID = count > 0 ? this.products[count - 1].id + 1 : 1;
+    const productID = count > 0 ? this.products[count - 1].id + 1 : 1;
 
-    return nextID;
+    return productID;
   };
 
   addProduct = (title, description, price, thumbnail, code, stock) => {
-
-    const id = this.getNextID();
+    const id = this.getProductID();
 
     const product = {
       id,
@@ -28,47 +27,50 @@ class ProductManager {
       stock,
     };
 
-    if (!this.products.includes(product.code)) {
-      return this.products.push(product)
-    }
-    else {
-      console.log("El codigo ingresado ya se encuentra agregado")
-    }
+    const validationCode = this.products.some(
+      (element) => element.code == product.code
+    );
 
-    if (this.products.lenght == 0) {
-      return this.products;
-
+    if (!validationCode) {
+      return console.log(this.products.push(product));
     } else {
-      const listadoProductos = this.products.push(product);
-
-      return listadoProductos;
+      return console.log("The code already exists");
     }
   };
 
-
-
-  getProductById = ({ id }) => {
+  getProductById = (id) => {
     const busqueda = this.products.find((product) => product.id === id);
     if (busqueda == undefined) {
-      return console.log("Not Found")
+      return console.log("Not Found");
     } else {
-      return product.title;
+      return console.log(`The product is ${busqueda.title}`);
     }
   };
 }
 
 const instancia = new ProductManager();
 
-console.log(instancia)
+instancia.getProducts();
 
+instancia.addProduct(
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
+);
+instancia.getProducts();
 
+instancia.addProduct(
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
+);
+instancia.getProductById(1);
+debugger;
 
-console.log(instancia.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25))
-console.log(instancia.getProducts())
-console.log(instancia.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25))
-console.log(instancia.getProductById(1))
-
-
-
-/* const sameId = (element) => element == product.id;if (!this.products.some(sameId)) {this.products.push(product)} else {console.log("An id is duplicated") */
-
+/* investigar qué hace y que devuelve el some, find, include,  */
