@@ -4,7 +4,7 @@ class ProductManager {
   }
 
   getProducts = () => {
-    return console.log(this.products);
+    return this.products;
   };
 
   getProductID = () => {
@@ -15,6 +15,7 @@ class ProductManager {
   };
 
   addProduct = (title, description, price, thumbnail, code, stock) => {
+    
     const id = this.getProductID();
 
     const product = {
@@ -27,16 +28,17 @@ class ProductManager {
       stock,
     };
 
+
     const validationCode = this.products.some(
       (element) => element.code == product.code
     );
 
     if (!validationCode) {
-      return console.log(this.products.push(product));
+      return this.products.push(product);
     } else {
-      return console.log("The code already exists");
+      return console.log("The code already exists, check Code");
     }
-  };
+  }
 
   getProductById = (id) => {
     const busqueda = this.products.find((product) => product.id === id);
@@ -50,27 +52,28 @@ class ProductManager {
 
 const instancia = new ProductManager();
 
-instancia.getProducts();
+console.log(instancia.getProducts());
 
-instancia.addProduct(
+console.log(instancia.addProduct(
   "producto prueba",
   "Este es un producto prueba",
   200,
   "Sin imagen",
   "abc123",
   25
-);
-instancia.getProducts();
+));
+
+console.log(instancia.getProducts())
 
 instancia.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
+  "producto prueba2",
+  "Este es un producto prueba2",
+  300,
   "Sin imagen",
   "abc123",
   25
 );
-instancia.getProductById(1);
-debugger;
+console.log(instancia.getProductById(1));
+
 
 /* investigar qué hace y que devuelve el some, find, include,  */
