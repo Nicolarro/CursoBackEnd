@@ -15,7 +15,6 @@ class ProductManager {
   };
 
   addProduct = (title, description, price, thumbnail, code, stock) => {
-    
     const id = this.getProductID();
 
     const product = {
@@ -28,17 +27,24 @@ class ProductManager {
       stock,
     };
 
+  
 
-    const validationCode = this.products.some(
-      (element) => element.code == product.code
-    );
 
-    if (!validationCode) {
-      return this.products.push(product);
+    if ((title, description, price, thumbnail, code, stock)) {
+
+      const validationCode = this.products.some(
+        (element) => element.code == product.code
+      );
+
+      if (!validationCode) {
+        return this.products.push(product);
+      } else {
+        return console.log("The code already exists, check Code");
+      }
     } else {
-      return console.log("The code already exists, check Code");
+      console.log("Check the product elements");
     }
-  }
+  };
 
   getProductById = (id) => {
     const busqueda = this.products.find((product) => product.id === id);
@@ -54,16 +60,18 @@ const instancia = new ProductManager();
 
 console.log(instancia.getProducts());
 
-console.log(instancia.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc123",
-  25
-));
+console.log(
+  instancia.addProduct(
+    "producto prueba",
+    "Este es un producto prueba",
+    200,
+    "Sin imagen",
+    "abc123",
+    25
+  )
+);
 
-console.log(instancia.getProducts())
+console.log(instancia.getProducts());
 
 instancia.addProduct(
   "producto prueba2",
@@ -74,6 +82,5 @@ instancia.addProduct(
   25
 );
 console.log(instancia.getProductById(1));
-
 
 /* investigar qué hace y que devuelve el some, find, include,  */
