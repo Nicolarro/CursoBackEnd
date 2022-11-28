@@ -8,21 +8,31 @@ class ProductManager {
   }
 
   init = () => {
+    debugger;
     try {
       const existFile = fs.existsSync(this.file);
-    } catch {
-      console.log("The file didnt exist");
-      return fs.writeFileSync(this.file, JSON.stringify([]));
+      if (existFile) {
+        return this.getProducts()
+      }
+      else {
+        fs.writeFileSync(this.file, JSON.stringify([]));
+      }
+    } catch (erorr) {
+      console.log("Error");
     }
   };
 
   getProducts = async () => {
+    const existFile = fs.existsSync(this.file);
     if (existFile) {
+      debugger;
       console.log("The file already exists");
       const productsAll = await fs.promises.readFile(this.file, "utf-8");
-      const fileConverted = JSON.parse(productFile); /* va a devolver un json */
+      const fileConverted = JSON.parse(productsAll);
+      console.log(fileConverted)
       return fileConverted;
     } else {
+
     }
   };
 
@@ -33,46 +43,43 @@ class ProductManager {
   };
 
   addProduct = async (title, description, price, thumbnail, code, stock) => {
-    /*     const product = {
-      id,
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-    }; */
 
-    if (fs.promises.exists(this.file)) {
+    let productAdded = {title, description, price, thumbnail, code, stock}
+
+    if (fs.existsSync(this.file)) {
+      debugger;
       const id = this.getProductID();
       const productFile = await this.getProducts();
       let newProduct = {
         id: id,
-        ...this.products,
+        ...this.productFile,
       };
 
-      productsAll.push(newProduct);
+
+      productFile.push(newProduct);
       await fs.promises.writeFile(
-        this.archivo,
-        JSON.stringify(productsAll, null, 2)
+        this.file,
+        JSON.stringify(productFile, null, 2)
       );
 
-      if ((title, description, price, thumbnail, code, stock)) {
-        const validationCode = this.products.some(
-          (element) => element.code == product.code
-        );
+      /*       if ((title, description, price, thumbnail, code, stock)) {
+              const validationCode = this.products.some(
+                (element) => element.code == product.code
+              ); */
 
-        if (!validationCode) {
-          return this.products.push(product);
-        } else {
-          return console.log("The code already exists, check Code");
-        }
-      } else {
-        console.log("Check the product elements");
-      }
+      /*         if (!validationCode) {
+                return this.products.push(product);
+              } else {
+                return console.log("The code already exists, check Code");
+              }
+            } else {
+              console.log("Check the product elements");
+            } */
+
     }
 
     getProductById = (id) => {
+      debugger;
       const busqueda = this.products.find((product) => product.id === id);
       if (busqueda == undefined) {
         return console.log("Not Found");
@@ -103,7 +110,7 @@ class ProductManager {
   };
 }
 
-const instancia = new ProductManager();
+const instancia = new ProductManager("./productos.json");
 
 console.log(instancia.getProducts());
 
@@ -128,8 +135,8 @@ instancia.addProduct(
   "abc123",
   25
 );
-console.log(instancia.getProductById(1));
+/* console.log(instancia.getProductById(1));
 
-console.log(deleteProduct(1));
+console.log(deleteProduct(1)); */
 
 /* investigar qué hace y que devuelve el some, find, include,  */
