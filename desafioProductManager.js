@@ -1,6 +1,7 @@
 class ProductManager {
   constructor() {
     this.products = [];
+    
   }
 
   getProducts = () => {
@@ -27,11 +28,7 @@ class ProductManager {
       stock,
     };
 
-  
-
-
     if ((title, description, price, thumbnail, code, stock)) {
-
       const validationCode = this.products.some(
         (element) => element.code == product.code
       );
