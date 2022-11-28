@@ -8,13 +8,11 @@ class ProductManager {
   }
 
   init = () => {
-    debugger;
     try {
       const existFile = fs.existsSync(this.file);
       if (existFile) {
-        return this.getProducts()
-      }
-      else {
+        return this.getProducts();
+      } else {
         fs.writeFileSync(this.file, JSON.stringify([]));
       }
     } catch (erorr) {
@@ -23,16 +21,16 @@ class ProductManager {
   };
 
   getProducts = async () => {
-    const existFile = fs.existsSync(this.file);
-    if (existFile) {
-      debugger;
-      console.log("The file already exists");
-      const productsAll = await fs.promises.readFile(this.file, "utf-8");
-      const fileConverted = JSON.parse(productsAll);
-      console.log(fileConverted)
-      return fileConverted;
-    } else {
-
+    try {
+      const existFile = fs.promises.stat(this.file);
+      if (existFile) {
+        const productsAll = await fs.promises.readFile(this.file, "utf-8");
+        const fileConverted = JSON.parse(productsAll);
+        console.log(fileConverted);
+        return fileConverted;
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -43,66 +41,51 @@ class ProductManager {
   };
 
   addProduct = async (title, description, price, thumbnail, code, stock) => {
-
-    let productAdded = {title, description, price, thumbnail, code, stock}
+    const productAdded = { title, description, price, thumbnail, code, stock };
 
     if (fs.existsSync(this.file)) {
       debugger;
       const id = this.getProductID();
       const productFile = await this.getProducts();
+
       let newProduct = {
         id: id,
-        ...this.productFile,
+        ...productAdded,
       };
-
 
       productFile.push(newProduct);
       await fs.promises.writeFile(
         this.file,
         JSON.stringify(productFile, null, 2)
       );
-
-      /*       if ((title, description, price, thumbnail, code, stock)) {
-              const validationCode = this.products.some(
-                (element) => element.code == product.code
-              ); */
-
-      /*         if (!validationCode) {
-                return this.products.push(product);
-              } else {
-                return console.log("The code already exists, check Code");
-              }
-            } else {
-              console.log("Check the product elements");
-            } */
-
     }
-
-    getProductById = (id) => {
-      debugger;
-      const busqueda = this.products.find((product) => product.id === id);
-      if (busqueda == undefined) {
-        return console.log("Not Found");
-      } else {
-        return console.log(`The product is ${busqueda.title}`);
-      }
-    };
   };
 
-  updateProduct = async (id) => {
+  getProductById = (id) => {
     const busqueda = this.products.find((product) => product.id === id);
+    if (busqueda == undefined) {
+      return console.log("Not Found");
+    } else {
+      return console.log(`The product is ${busqueda.title}`);
+    }
+  };
+
+  updateProduct = async (id, element) => {
+    debugger;
+    const busqueda = this.products.find((product) => product.id === id);
+    console.log(busqueda);
     const product = JSON.stringify(busqueda);
     fs.promises.writeFile();
   };
 
   deleteProduct = async (id) => {
-    if (this.exists(this.file)) {
-      const data = await this.promises.readFile(this.file);
-      console.log(`Borrando datos...`);
+    if (fs.promises.stat(this.file)) {
+      const data = await fs.promises.stat(this.file);
+
       if (data.some((item) => item.id === id)) {
-        const data = await this.promises.readFile(this.file);
+        const data = await fs.promises.stat(this.file);
         const datos = data.filter((item) => item.id !== id);
-        this.writeFile(this.file, datos);
+        return fs.promises.writeFile(this.file, datos);
       } else {
         throw new Error(`No se encontro el producto con el id ${id}`);
       }
@@ -112,22 +95,24 @@ class ProductManager {
 
 const instancia = new ProductManager("./productos.json");
 
-console.log(instancia.getProducts());
+const allProducts = instancia.getProducts();
+console.log(allProducts);
 
-console.log(
-  instancia.addProduct(
-    "producto prueba",
-    "Este es un producto prueba",
-    200,
-    "Sin imagen",
-    "abc123",
-    25
-  )
+const productOneSaved = instancia.addProduct(
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
 );
 
-console.log(instancia.getProducts());
+console.log(productOneSaved);
 
-instancia.addProduct(
+const firstGet = instancia.getProducts();
+console.log(firstGet);
+
+const productTwoSaved =  instancia.addProduct(
   "producto prueba2",
   "Este es un producto prueba2",
   300,
@@ -135,8 +120,10 @@ instancia.addProduct(
   "abc123",
   25
 );
-/* console.log(instancia.getProductById(1));
 
-console.log(deleteProduct(1)); */
+console.log(productTwoSaved);
+
+const deleteProd = instancia.deleteProduct(1);
+console.log(deleteProd);
 
 /* investigar qué hace y que devuelve el some, find, include,  */
