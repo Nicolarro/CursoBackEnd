@@ -4,9 +4,12 @@ import { instancia } from "./db.js";
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const port = 8080;
 
-app.get("/api/products", async (req, res) => {
+app.get("/products", async (req, res) => {
   try {
     const { limit } = req.query;
 
@@ -23,7 +26,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-app.get("/api/products/:id"),
+app.get("/products/:id"),
   async (req, res) => {
     try {
       const { id } = req.params;
@@ -45,3 +48,5 @@ app.get("/api/products/:id"),
   };
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+/* -------------------------------- */

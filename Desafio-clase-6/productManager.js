@@ -32,39 +32,60 @@ export class ProductManager {
   addProduct = async (title, description, price, thumbnail, code, stock) => {
     const productAdded = { title, description, price, thumbnail, code, stock };
 
-    if (fs.existsSync(this.file)) {
-      const id = this.getProductID();
-      const productFile = await this.read();
+    const products = await this.getProducts();
 
+    const id = this.getProductID();
+
+    const codeValidation = products.some((product) => product.code === code);
+
+    if (!codeValidation) {
       let newProduct = {
         id: id,
         ...productAdded,
       };
 
-      productFile.push(newProduct);
-      await fs.promises.writeFile(
-        this.file,
-        JSON.stringify(productFile, null, 2)
-      );
+      products.push(newProduct);
+      await fs.promises.writeFile(this.file, JSON.stringify(products, null, 2));
+
+      return products;
+    } else {
+      throw new Error("Codigo repetido");
     }
   };
 
   getProductById = async (id) => {
     const products = await fs.promises.readFile(this.file, "utf-8");
-    const busqueda = products.find((product) => product.id === id);
+    const productParsed = JSON.parse(products);
+    const busqueda = productParsed.find((product) => product.id === id);
+
+    console.log(busqueda);
+
     if (busqueda == undefined) {
-      return console.log("Not Found");
+      return console.log("Product Not Found");
     } else {
       return busqueda;
     }
   };
 
-  updateProduct = async (id, obj) => {
+  updateProduct = async (
+    id,
+    { title, description, price, thumbnail, code, stock }
+  ) => {
     const data = await this.getProducts();
-    const busqueda = this.products.find((product) => product.id === id);
+    const busqueda = this.products.findIndex((product) => product.id === id);
     console.log(busqueda);
-    const product = JSON.stringify(busqueda);
-    await fs.promises.writeFile();
+    if (busqueda === -1) {
+      throw new Error();
+    } else {
+      const product = this.products[busqueda];
+      products[product] = {
+        ...product,
+        ...{ title, description, price, thumbnail, code, stock },
+      };
+      await fs.promises.writeFile(this.file, JSON.stringify(products, null, 2));
+
+      return products[busqueda];
+    }
   };
 
   deleteProduct = async (id) => {
