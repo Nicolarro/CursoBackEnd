@@ -13,7 +13,7 @@ class ProductManager {
       if (existFile) {
         return this.getProducts();
       } else {
-        fs.writeFileSync(this.file, JSON.stringify([]));
+        return fs.writeFileSync(this.file, JSON.stringify([]));
       }
     } catch (erorr) {
       console.log("Error");
@@ -112,7 +112,7 @@ console.log(productOneSaved);
 const firstGet = instancia.getProducts();
 console.log(firstGet);
 
-const productTwoSaved =  instancia.addProduct(
+const productTwoSaved = instancia.addProduct(
   "producto prueba2",
   "Este es un producto prueba2",
   300,

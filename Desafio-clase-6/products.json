@@ -1,0 +1,47 @@
+[
+    {
+        "id":1,
+        "producto": "a"
+
+    },
+    {
+        "id": 2,
+        "producto": "b"
+    },
+    {
+        "id": 3,
+        "producto": "c"
+    },
+    {
+        "id": 3,
+        "producto": "d"
+    },
+    {
+        "id": 4,
+        "producto": "e"
+    },
+    {
+        "id": 5,
+        "producto": "f"
+    },
+    {
+        "id": 6,
+        "producto": "g"
+    },
+    {
+        "id": 7,
+        "producto": "h"
+    },
+    {
+        "id": 8,
+        "producto": "i"
+    },
+        {
+        "id": 9,
+        "producto": "j"
+    },
+    {
+        "id": 10,
+        "producto": "k"
+    }
+]
