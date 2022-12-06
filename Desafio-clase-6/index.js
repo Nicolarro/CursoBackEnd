@@ -26,11 +26,11 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/products/:id"),
+app.get("/products/:id",
   async (req, res) => {
     try {
-      const { id } = req.params;
-      /*  const id = Number(paramId); */
+      const { id: paramId } = req.params;
+   const id = Number(paramId);
 
       const productsById = await instancia.getProductById(id);
 
@@ -45,7 +45,7 @@ app.get("/products/:id"),
     } catch (error) {
       res.send({ success: false, error: "Error" });
     }
-  };
+  });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
