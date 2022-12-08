@@ -26,26 +26,25 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/products/:id",
-  async (req, res) => {
-    try {
-      const { id: paramId } = req.params;
-   const id = Number(paramId);
+app.get("/products/:id", async (req, res) => {
+  try {
+    const { id: paramId } = req.params;
+    const id = Number(paramId);
 
-      const productsById = await instancia.getProductById(id);
+    const productsById = await instancia.getProductById(id);
 
-      if (!productsById) {
-        return res.send({
-          success: false,
-          error: "No se encontro el producto",
-        });
-      } else {
-        res.send({ success: true, productsById: productsById });
-      }
-    } catch (error) {
-      res.send({ success: false, error: "Error" });
+    if (!productsById) {
+      return res.send({
+        success: false,
+        error: "No se encontro el producto",
+      });
+    } else {
+      res.send({ success: true, productsById: productsById });
     }
-  });
+  } catch (error) {
+    res.send({ success: false, error: "Error" });
+  }
+});
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
