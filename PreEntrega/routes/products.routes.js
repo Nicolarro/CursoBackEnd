@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ProductManager } from "../products.js";
+import { ProductManager } from "../productManager.js";
 
 export const instancia = new ProductManager("./products.json");
 
