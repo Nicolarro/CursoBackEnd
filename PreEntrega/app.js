@@ -9,7 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = 8080
 
-app.use('/api/products', productRouter) /*  */
+app.use("/api", routers);
+app.use('/api/products', productRouter)
 app.use('/api/carts', carritoRouter)
 app.use('/', (req,res) => res.send({success: true, message: "Pagina inicial"}))
 

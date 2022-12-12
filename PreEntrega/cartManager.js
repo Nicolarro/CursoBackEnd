@@ -1,5 +1,4 @@
 import fs from "fs";
-import { ProductManager } from "./productManager";
 
 export class CartManager {
     constructor(file) {
@@ -29,10 +28,14 @@ export class CartManager {
         return cartId;
     }
 
-    addCart = async () => {
-
-
-
+    addCart = async (quantity) => {
+        const id = this.getCartID(),
+        const addCart = {quantity},
+        
+        let newCart = {
+            id: id,
+            ...addCart,
+          };
 
     }
 

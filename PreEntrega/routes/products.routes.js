@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { ProductManager } from "../productManager.js";
 
-export const instancia = new ProductManager("./products.json");
-
+export const productos = new ProductManager("./products.json");
 
 const router = Router();
 
@@ -10,7 +9,7 @@ router.get("/api/products", async (req, res) => {
   try {
     const { limit } = req.query;
 
-    const products = await instancia.getProducts();
+    const products = await productos.getProducts();
     if (!limit || limit < 1) {
       return res.send({ sucess: true, products: products });
     } else {
@@ -27,7 +26,7 @@ router.get("/api/products/:id", async (req, res) => {
     const { id: paramId } = req.params;
     const id = Number(paramId);
 
-    const productsById = await instancia.getProductById(id);
+    const productsById = await productos.getProductById(id);
 
     if (!productsById) {
       return res.send({
@@ -49,7 +48,7 @@ router.post("/api/products"),
       if (!title || !description || !price || !thumbnail || !code || !stock) {
         return res.send({ success: false, error: "El campo es obligatorio" });
       } else {
-        const productAdded = await instancia.addProduct({
+        const productAdded = await productos.addProduct({
           title,
           description,
           price,
@@ -60,14 +59,13 @@ router.post("/api/products"),
         res.send({ success: true, productAdded: productAdded });
       }
     } catch (error) {
-      throw new Error();
+      throw new Error("Error");
     }
   };
 
-router.put("/api/products/:id")
-/* el id no se debe enviar por params,
- */,
-  async (req, res) => {
+router.put("/api/products/:id"),
+  /* el id no se debe enviar por params,
+   */ async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -75,7 +73,7 @@ router.put("/api/products/:id")
         res.send({ success: false, error: "Id is not valid" });
       } else {
         const { title, description, price, thumbnail, code, stock } = req.body;
-        const updateProduct = await instancia.updateProduct(id, {
+        const updateProduct = await productos.updateProduct(id, {
           title,
           description,
           price,

@@ -8,10 +8,9 @@ export const carritos= new CartManager("./carrito.json");
 export const productos = new ProductManager("./products.json");
 
 router.post("/", async (req, res) => {
-    const products = []
     const idCarrito = await carritos.getCartID();
-    const carrito = { idCarrito, ...products }
-    const nuevoCarrito = carritos.push(carrito)
+    const carrito = { idCarrito, products: []}
+    const nuevoCarrito = await carritos.addCart(carrito)
     res.send({ success: true, nuevoCarrito: nuevoCarrito })
 });
 
@@ -27,7 +26,7 @@ router.get("/:cid", async (req, res) => {
 
 })
 
-router.post("/:id/productss/:pid", async (req, res) => {
+router.post("/:id/products/:pid", async (req, res) => {
     const idCarrito = parseInt(req.params.id);
     const idProducto = req.body.idProducto;
     const carrito = await carritos.getCartById(idCarrito);
@@ -38,10 +37,6 @@ router.post("/:id/productss/:pid", async (req, res) => {
     await carritos.modify(idCarrito, carritoJson);
     res.status(201).send(carritoJson);
 });
-
-
-
-
 
 
 

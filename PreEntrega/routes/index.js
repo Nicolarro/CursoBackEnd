@@ -8,3 +8,4 @@ const router = Router();
 router.use("/api/productos", products);
 
 router.use("/api/carrito", carrito);
+
