@@ -22,27 +22,27 @@ export class CartManager {
         return cartParsed;
     };
 
-    getCartID = () => {
+    getCartID = async () => {
         const count = this.cart.length;
         const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
         return cartId;
     }
 
     addCart = async (quantity) => {
-        const id = this.getCartID(),
-        const addCart = {quantity},
+        const id = await this.getCartID();
+            addCart = {cquantity};
         
         let newCart = {
             id: id,
             ...addCart,
           };
-
+          return newCart
     }
 
     getCartById = async (id) => {
         const cart = await fs.promises.readFile(this.file, "utf-8");
         const cartParsed = JSON.parse(cart);
-        const busqueda = cartParsed.find((cart) => cart.id === id);
+        const busqueda = cartParsed.find((cart) => cart.id == id);
 
         console.log(busqueda);
 
@@ -52,7 +52,5 @@ export class CartManager {
             return busqueda;
         }
     };
-
-
 
 }
