@@ -5,7 +5,7 @@ export const productos = new ProductManager("./products.json");
 
 const router = Router();
 
-router.get("/api/products", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { limit } = req.query;
 
@@ -21,7 +21,7 @@ router.get("/api/products", async (req, res) => {
   }
 });
 
-router.get("/api/products/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const { id: paramId } = req.params;
     const id = Number(paramId);
@@ -41,7 +41,7 @@ router.get("/api/products/:id", async (req, res) => {
   }
 });
 
-router.post("/api/products"),
+router.post("/"),
   async (req, res) => {
     try {
       const { title, description, price, thumbnail, code, stock } = req.body;
@@ -63,7 +63,7 @@ router.post("/api/products"),
     }
   };
 
-router.put("/api/products/:id"),
+router.put("/:id"),
   /* el id no se debe enviar por params,
    */ async (req, res) => {
     try {

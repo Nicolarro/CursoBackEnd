@@ -1,26 +1,43 @@
 import fs from "fs";
 
 export class CartManager {
-    constructor(file) {
-        this.cart = [];
-        this.file = file;
-        this.#read();
-    }
+  constructor(file) {
+    this.cart = [];
+    this.file = file;
+    this.#read();
+  }
 
-    #read = () => {
-        const existFile = fs.existsSync(this.file);
-        if (existFile) {
-            return;
-        } else {
-            return fs.writeFileSync(this.file, JSON.stringify([]));
-        }
+  #read = () => {
+    const existFile = fs.existsSync(this.file);
+    if (existFile) {
+      return;
+    } else {
+      return fs.writeFileSync(this.file, JSON.stringify([]));
     }
+  };
 
-    getCart = async () => {
-        const cart = await fs.promises.readFile(this.file, "utf-8");
-        const cartParsed = JSON.parse(cart);
-        return cartParsed;
+  getCart = async () => {
+    const cart = await fs.promises.readFile(this.file, "utf-8");
+    const cartParsed = JSON.parse(cart);
+    return cartParsed;
+  };
+
+  getCartID = () => {
+    const count = this.cart.length;
+    const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
+    return cartId;
+  };
+
+  addCart = async (quantity) => {
+    const id = this.getCartID();
+    const addCart = { quantity };
+
+    let newCart = {
+      id: id,
+      ...addCart,
     };
+    return newCart
+  };
 
     getCartID = async () => {
         const count = this.cart.length;
@@ -30,7 +47,7 @@ export class CartManager {
 
     addCart = async (quantity) => {
         const id = await this.getCartID();
-            addCart = {cquantity};
+            addCart = {quantity};
         
         let newCart = {
             id: id,
