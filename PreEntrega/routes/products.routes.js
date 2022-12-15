@@ -59,7 +59,7 @@ router.post("/"),
         res.send({ success: true, productAdded: productAdded });
       }
     } catch (error) {
-      throw new Error("Error");
+      throw new Error(error);
     }
   };
 
