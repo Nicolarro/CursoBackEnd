@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { CartManager } from "../cartManager.js";
-import { ProductManager } from "../productManager.js";
+import { CartManager } from "../../Managers/cartManager.js";
+import { ProductManager } from "../../Managers/productManager.js";
 
 const router = Router();
 
-export const carritos = new CartManager("./carrito.json");
-export const productos = new ProductManager("./products.json");
+export const carritos = new CartManager("../carrito.json");
+export const productos = new ProductManager("../products.json");
 
 router.post("/", async (req, res) => {
     const idCarrito = await carritos.getCartID();

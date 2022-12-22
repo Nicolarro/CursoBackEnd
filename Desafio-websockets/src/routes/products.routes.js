@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { ProductManager } from "../productManager.js";
+import { ProductManager } from "../../Managers/productManager.js";
 
-/* export const ProductManager = new ProductManager("./products.json"); */
 
 const router = Router();
 
@@ -41,29 +40,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/"),
-  async (req, res) => {
-    try {
-      const { title, description, price, thumbnail, code, stock } = req.body;
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
-        return res.send({ success: false, error: "El campo es obligatorio" });
-      } else {
-        const productAdded = await ProductManager.addProduct({
-          title,
-          description,
-          price,
-          thumbnail,
-          code,
-          stock,
-        });
-        res.send({ success: true, productAdded: productAdded });
-      }
-    } catch (error) {
-      throw new Error(error);
+router.post("/", async (req, res) => {
+  try {
+    const { title, description, price, thumbnail, code, stock } = req.body;
+    if (!title || !description || !price || !thumbnail || !code || !stock) {
+      return res.send({ success: false, error: "El campo es obligatorio" });
+    } else {
+      const productAdded = await ProductManager.addProduct({
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+      });
+      res.send({ success: true, productAdded: productAdded });
     }
-  };
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
-router.put("/:id"),
+router.put(
+  "/:id",
   /* el id no se debe enviar por params,
    */ async (req, res) => {
     try {
@@ -86,6 +85,7 @@ router.put("/:id"),
     } catch (error) {
       throw new Error();
     }
-  };
+  }
+);
 
 export default router;
