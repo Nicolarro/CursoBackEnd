@@ -39,35 +39,35 @@ export class CartManager {
     return newCart
   };
 
-    getCartID = async () => {
-        const count = this.cart.length;
-        const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
-        return cartId;
-    }
+  getCartID = async () => {
+    const count = this.cart.length;
+    const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
+    return cartId;
+  }
 
-    addCart = async (quantity) => {
-        const id = await this.getCartID();
-            addCart = {quantity};
-        
-        let newCart = {
-            id: id,
-            ...addCart,
-          };
-          return newCart
-    }
+  addCart = async (quantity) => {
+    const id = await this.getCartID();
+    addCart = {quantity};
 
-    getCartById = async (id) => {
-        const cart = await fs.promises.readFile(this.file, "utf-8");
-        const cartParsed = JSON.parse(cart);
-        const busqueda = cartParsed.find((cart) => cart.id == id);
-
-        console.log(busqueda);
-
-        if (busqueda == undefined) {
-            return console.log("Cart Not Found");
-        } else {
-            return busqueda;
-        }
+    let newCart = {
+      id: id,
+      ...addCart,
     };
+    return newCart
+  }
+
+  getCartById = async (id) => {
+    const cart = await fs.promises.readFile(this.file, "utf-8");
+    const cartParsed = JSON.parse(cart);
+    const busqueda = cartParsed.find((cart) => cart.id == id);
+
+    console.log(busqueda);
+
+    if (busqueda == undefined) {
+      return console.log("Cart Not Found");
+    } else {
+      return busqueda;
+    }
+  };
 
 }

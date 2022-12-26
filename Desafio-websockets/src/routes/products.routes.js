@@ -57,6 +57,7 @@ router.post("/", async (req, res) => {
       res.send({ success: true, productAdded: productAdded });
     }
   } catch (error) {
+    console.log(error)
     throw new Error(error);
   }
 });
@@ -71,16 +72,23 @@ router.put(
       if (!id || id < 0) {
         res.send({ success: false, error: "Id is not valid" });
       } else {
-        const { title, description, price, thumbnail, code, stock } = req.body;
-        const updateProduct = await ProductManager.updateProduct(id, {
-          title,
-          description,
-          price,
-          thumbnail,
-          code,
-          stock,
-        });
-        res.send({ success: true, updateProduct: updateProduct });
+        const productToUpdate = req.body;
+        const product = await ProductManager.getProductById(parseInt(id));
+        if (!product) {
+          return res.status(404).send("Product not found")
+        }
+        else {
+          updateProduct = await ProductManager.updateProduct(id, {
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+          });
+          res.send({ success: true, updateProduct: updateProduct });
+        }
+
       }
     } catch (error) {
       throw new Error();
