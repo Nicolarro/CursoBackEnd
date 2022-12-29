@@ -26,7 +26,7 @@ app.set("views engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
 app.get("/", (req, res) => {
-    res.render("home")
+    res.render("HOME")
 })
 
 app.set("io", io);

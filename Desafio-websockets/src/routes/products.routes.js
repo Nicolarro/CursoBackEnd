@@ -9,11 +9,11 @@ router.get("/", async (req, res) => {
     const { limit } = req.query;
 
     const products = await ProductManager.getProducts();
-    if (!limit || limit < 1) {
+    if (!limit || limit < 1 || limit > products.length) {
       return res.send({ sucess: true, products: products });
     } else {
       const productFiltered = products.slice(0, limit);
-      res.send({ sucess: true, products: productFiltered });
+      return res.send({ sucess: true, products: productFiltered });
     }
   } catch {
     res.send({ success: false, error: "Error" });
@@ -24,6 +24,10 @@ router.get("/:id", async (req, res) => {
   try {
     const { id: paramId } = req.params;
     const id = Number(paramId);
+
+    if (id < 0 ){
+      return res.send ({ success: false, error: "Ingrese un id valido" })
+    }
 
     const productsById = await ProductManager.getProductById(id);
 
@@ -58,7 +62,8 @@ router.post("/", async (req, res) => {
     }
   } catch (error) {
     console.log(error)
-    throw new Error(error);
+    throw new Error(error)
+    res.send();
   }
 });
 
@@ -78,22 +83,37 @@ router.put(
           return res.status(404).send("Product not found")
         }
         else {
-          updateProduct = await ProductManager.updateProduct(id, {
+          updateProduct = await ProductManager.updateProduct({id, newData: {
             title,
             description,
             price,
             thumbnail,
             code,
             stock,
-          });
+          }});
           res.send({ success: true, updateProduct: updateProduct });
         }
-
       }
     } catch (error) {
       throw new Error();
     }
   }
 );
+
+        router.put('/:pid', async (req, res) => {
+          const id = parselnt(req.params.pid)
+          const productToUpdate = req.body
+          const product = await fileManager.getByID(id)
+          if (!product) return res.status(404).send('Product not found')
+          for (const key of Object.keys(productToUpdate)) {
+            product[key] = productToUpdate[key]}
+
+            await fileManager.update(id, product)
+            res.json({ status: "success", product})
+          } )
+        
+
+
+
 
 export default router;

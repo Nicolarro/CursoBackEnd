@@ -22,9 +22,10 @@ export class ProductManager {
     return productParsed;
   };
 
-  getProductID = () => {
-    const count = this.products.length;
-    const productID = count > 0 ? this.products[count - 1].id + 1 : 1;
+  getProductID = async () => {
+    const products = await this.getProducts();
+    const count = products.length;
+    const productID = count > 0 ? products[count - 1].id + 1 : 1;
     return productID;
   };
 
@@ -33,11 +34,13 @@ export class ProductManager {
 
     const products = await this.getProducts();
 
-    const id = this.getProductID();
+    const id = await this.getProductID();
+    console.log(id)
 
-    const codeValidation = products.some((product) => product.code === code);
+    const existCode = products.some((product) => product.code === code);
+    // me esta dando true existCode, cuando no hay repetidos--> VERIFICAR
 
-    if (!codeValidation) {
+    if (!existCode) {
       let newProduct = {
         id: id,
         ...productAdded,
@@ -53,9 +56,8 @@ export class ProductManager {
   };
 
   getProductById = async (id) => {
-    const products = await fs.promises.readFile(this.file, "utf-8");
-    const productParsed = JSON.parse(products);
-    const busqueda = productParsed.find((product) => product.id === id);
+    const products = await this.getProducts()
+    const busqueda = products.find((product) => product.id === id);
 
     console.log(busqueda);
 
@@ -66,33 +68,45 @@ export class ProductManager {
     }
   };
 
-  updateProduct = async (
-    id,
-    { title, description, price, thumbnail, code, stock }
+  updateProduct = async ({ id, newData }
   ) => {
-    const data = await this.getProducts();
-    const busqueda = this.products.findIndex((product) => product.id === id);
-    if (busqueda === -1) {
-      throw new Error();
+    const products = await this.getProducts();
+    // console.log(products)
+    const productIndex = products.findIndex((product) => product.id === id);
+    if (productIndex === -1) {
+      throw new Error("Producto no encontrado");
     } else {
-      const product = this.products[busqueda];
-      products[product] = {
+      const product = products[productIndex];
+
+      // console.log(product)
+
+      products[productIndex] = {
         ...product,
-        ...{ title, description, price, thumbnail, code, stock },
+        ...newData
       };
+      console.log(products)
       await fs.promises.writeFile(this.file, JSON.stringify(products, null, 2));
 
-      return products[busqueda];
+      return products[productIndex];
     }
   };
 
   deleteProduct = async (id) => {
     const data = await this.getProducts();
-    JSON.parse(data);
-    if (data.some((item) => item.id === id)) {
-      const data = await fs.promises.readFile(this.file);
-      const datos = data.filter((item) => item.id !== id);
-      return await fs.promises.writeFile(this.file, datos);
+    /*     const dataParsed = JSON.parse(data); */
+    /*     const productIndex = products.findIndex((product) => product.id === id) */
+
+    const productIndex = data.findIndex((product) => product.id === id);
+
+    if (productIndex === -1) throw new NotFoundError("Product not found");
+
+    else{
+      const deletedProduct = data.splice(productIndex, 1);
+
+    await fs.promises.writeFile(this.file, JSON.stringify(data, null, 3));
+
+    return deletedProduct[0];
     }
-  };
-}
+  }
+};
+
