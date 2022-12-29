@@ -79,36 +79,5 @@
       "thumbnail": "",
       "code": "abc746",
       "stock": 100
-   },
-   {
-      "id": 11,
-      "title": "j",
-      "description": "",
-      "price": 50,
-      "thumbnail": "",
-      "code": "abc846",
-      "stock": 100
-   },
-   {
-      "id": 1,
-      "title": {
-         "title": "Carlos",
-         "description": "Esteban",
-         "price": 50,
-         "thumbnail": "probando",
-         "code": "abc126",
-         "stock": 500
-      }
-   },
-   {
-      "id": 2,
-      "title": {
-         "title": "Carlos",
-         "description": "Esteban",
-         "price": 50,
-         "thumbnail": "probando",
-         "code": "abc336",
-         "stock": 500
-      }
    }
 ]
