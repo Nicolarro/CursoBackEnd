@@ -38,6 +38,16 @@ router.post("/:id/products/:pid", async (req, res) => {
     res.status(201).send(carritoJson);
 });
 
+router.put('/:pid', async (req,res) => {
+
+    const id = parseInt(req.params.pid)
+    const productToUpdate = req.body
+    const productAdded = await carritos.getCartById(id)
+
+    if(!productAdded) return res.status(404).send("Producto No Encontrado")
+    for (const key of  i);
+} )
+
 
 
 export default router;

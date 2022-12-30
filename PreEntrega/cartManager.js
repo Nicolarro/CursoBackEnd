@@ -29,20 +29,26 @@ export class CartManager {
     return cartId;
   };
 
-  addCart = async (quantity) => {
-    const id = this.getCartID();
-    const addCart = { quantity };
 
-    let newCart = {
-      id: id,
-      ...addCart,
-    };
-    return newCart
-  };
+  addCart = async (id, productID) => {
+    const cart = await this.getCartById(id);
 
+    for (let i = 0; i < cart.products.lenght; i++) {
+      const element = array[index];
+      let found = false
+      if (cart.products[id].id == productID) {
+        cart.products[i].quantity++
+        found = true
+      }
+    }
 
-  addCart = async (cartId, quantity) => {
-    const id = await this.getCartID(cartId);
+    if (!found) {
+      cart.products.push({
+        id: productID,
+        quantity: 1
+      })
+    }
+
     addCart = { quantity };
 
     let newCart = {
@@ -55,14 +61,14 @@ export class CartManager {
   getCartById = async (id) => {
     const cart = await fs.promises.readFile(this.file, "utf-8");
     const cartParsed = JSON.parse(cart);
-    const busqueda = cartParsed.find((cart) => cart.id == id);
+    const cartFinded = cartParsed.find((cart) => cart.id == id);
 
-    console.log(busqueda);
+    console.log(cartFinded);
 
-    if (busqueda == undefined) {
+    if (cartFinded == undefined) {
       return console.log("Cart Not Found");
     } else {
-      return busqueda;
+      return cartFinded;
     }
   };
 
