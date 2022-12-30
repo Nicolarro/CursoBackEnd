@@ -59,8 +59,6 @@ export class ProductManager {
     const products = await this.getProducts()
     const busqueda = products.find((product) => product.id === id);
 
-    console.log(busqueda);
-
     if (busqueda == undefined) {
       return console.log("Product Not Found");
     } else {
@@ -70,15 +68,13 @@ export class ProductManager {
 
   updateProduct = async ({ id, newData }
   ) => {
-    const products = await this.getProducts();
-    // console.log(products)
+    const products = await this.getProductById((id));
+
     const productIndex = products.findIndex((product) => product.id === id);
     if (productIndex === -1) {
-      throw new Error("Producto no encontrado");
+      return res.status(404).send("Producto no encontrado")
     } else {
       const product = products[productIndex];
-
-      // console.log(product)
 
       products[productIndex] = {
         ...product,
@@ -100,12 +96,12 @@ export class ProductManager {
 
     if (productIndex === -1) throw new NotFoundError("Product not found");
 
-    else{
+    else {
       const deletedProduct = data.splice(productIndex, 1);
 
-    await fs.promises.writeFile(this.file, JSON.stringify(data, null, 3));
+      await fs.promises.writeFile(this.file, JSON.stringify(data, null, 3));
 
-    return deletedProduct[0];
+      return deletedProduct[0];
     }
   }
 };

@@ -22,9 +22,10 @@ export class CartManager {
     return cartParsed;
   };
 
-  getCartID = () => {
-    const count = this.cart.length;
-    const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
+  getCartID = async () => {
+    const cart = await this.getCart()
+    const count = cart.length;
+    const cartId = count > 0 ? cart[count - 1].id + 1 : 1;
     return cartId;
   };
 
@@ -39,15 +40,10 @@ export class CartManager {
     return newCart
   };
 
-  getCartID = async () => {
-    const count = this.cart.length;
-    const cartId = count > 0 ? this.cart[count - 1].id + 1 : 1;
-    return cartId;
-  }
 
-  addCart = async (quantity) => {
-    const id = await this.getCartID();
-    addCart = {quantity};
+  addCart = async (cartId, quantity) => {
+    const id = await this.getCartID(cartId);
+    addCart = { quantity };
 
     let newCart = {
       id: id,

@@ -5,6 +5,7 @@ export const productos = new ProductManager("./products.json");
 
 const router = Router();
 
+/* TODO OK */
 router.get("/", async (req, res) => {
   try {
     const { limit } = req.query;
@@ -21,7 +22,7 @@ router.get("/", async (req, res) => {
     res.send({ success: false, error: "Error" });
   }
 });
-
+/* TODO OK */
 router.get("/:id", async (req, res) => {
   try {
     const { id: paramId } = req.params;
@@ -47,6 +48,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/* TODO OK */
 router.post("/",
   async (req, res) => {
     try {
@@ -62,7 +64,6 @@ router.post("/",
           code,
           stock,
         });
-        console.log(productAdded)
         return res.send({ success: true, productAdded: productAdded });
       }
     } catch (error) {
@@ -71,6 +72,7 @@ router.post("/",
     }
   });
 
+/* REVISAR */
 router.put("/:id",
   async (req, res) => {
     try {
@@ -88,7 +90,7 @@ router.put("/:id",
           thumbnail,
           code,
           stock,
-        });
+        });   
         res.send({ success: true, updateProduct: updateProduct });
       }
     } catch (error) {
@@ -97,6 +99,7 @@ router.put("/:id",
     }
   });
 
+/* TODO OK */
 router.delete('/:id', async (req, res) => {
   try {
     const { id: paramId } = req.params

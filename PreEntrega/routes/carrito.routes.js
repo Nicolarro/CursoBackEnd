@@ -4,12 +4,12 @@ import { ProductManager } from "../productManager.js";
 
 const router = Router();
 
-export const carritos= new CartManager("./carrito.json");
+export const carritos = new CartManager("./carrito.json");
 export const productos = new ProductManager("./products.json");
 
 router.post("/", async (req, res) => {
     const idCarrito = await carritos.getCartID();
-    const carrito = { idCarrito, products: []}
+    const carrito = { idCarrito, products: [] }
     const nuevoCarrito = await carritos.addCart(carrito)
     res.send({ success: true, nuevoCarrito: nuevoCarrito })
 });
