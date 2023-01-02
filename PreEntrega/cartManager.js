@@ -4,20 +4,19 @@ export class CartManager {
   constructor(file) {
     this.cart = [];
     this.file = file;
-    this.#read();
   }
 
-  #read = () => {
+  read = () => {
     const existFile = fs.existsSync(this.file);
     if (existFile) {
-      return;
+      return fs.promises.readFile(this.file, "utf-8").then(r => JSON.parse(r))
     } else {
       return fs.writeFileSync(this.file, JSON.stringify([]));
     }
   };
 
   getCart = async () => {
-    const cart = await fs.promises.readFile(this.file, "utf-8");
+    const cart = await this.read()
     const cartParsed = JSON.parse(cart);
     return cartParsed;
   };
@@ -30,15 +29,40 @@ export class CartManager {
   };
 
 
-  addCart = async (id, productID) => {
-    const cart = await this.getCartById(id);
+  create = async () => {
+    const carts = await this.read()
+    const nextID = this.getNextID(carts)
 
+    const newCart = {
+      id: nextID,
+      products: []
+    }
+    carts.push(newCart)
+    await this.write(carts)
+    return newCart
+  }
+
+  update = async (id, obj) => {
+    obj.id = id
+    const list = await this.read()
+
+    for (let i = O; i < list.length; i++) {
+
+      if (list[i].id == id) {
+        list[i] = obj
+        break
+      }
+    }
+  }
+
+  addCart = async (cartID, productID) => {
+    const cart = await this.getCartById(cartID);
+    let found = false
     for (let i = 0; i < cart.products.lenght; i++) {
-      const element = array[index];
-      let found = false
       if (cart.products[id].id == productID) {
         cart.products[i].quantity++
         found = true
+        break
       }
     }
 
@@ -48,19 +72,14 @@ export class CartManager {
         quantity: 1
       })
     }
+    await this.update(cartID, cart)
+    return cart
 
-    addCart = { quantity };
-
-    let newCart = {
-      id: id,
-      ...addCart,
-    };
-    return newCart
   }
 
   getCartById = async (id) => {
-    const cart = await fs.promises.readFile(this.file, "utf-8");
-    const cartParsed = JSON.parse(cart);
+    const cart = await this.read()
+    /*     const cartParsed = JSON.parse(cart); */
     const cartFinded = cartParsed.find((cart) => cart.id == id);
 
     console.log(cartFinded);

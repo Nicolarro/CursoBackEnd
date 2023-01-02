@@ -7,6 +7,13 @@ const router = Router();
 export const carritos = new CartManager("./carrito.json");
 export const productos = new ProductManager("./products.json");
 
+
+router.get("/", async (req,res) => {
+    const carts = await carritos.getCart()
+    console.log(carts)
+    res.json ({carts})
+})
+
 router.post("/", async (req, res) => {
     const idCarrito = await carritos.getCartID();
     const carrito = { idCarrito, products: [] }
@@ -28,7 +35,7 @@ router.get("/:cid", async (req, res) => {
 
 router.post("/:id/products/:pid", async (req, res) => {
     const idCarrito = parseInt(req.params.id);
-    const idProducto = req.body.idProducto;
+    const idProducto = parseInt(req.params.idProducto);
     const carrito = await carritos.getCartById(idCarrito);
     const carritoJson = carrito[0];
     const producto = await productos.getById(idProducto);
@@ -38,15 +45,16 @@ router.post("/:id/products/:pid", async (req, res) => {
     res.status(201).send(carritoJson);
 });
 
-router.put('/:pid', async (req,res) => {
+router.put('/:pid', async (req, res) => {
 
     const id = parseInt(req.params.pid)
     const productToUpdate = req.body
     const productAdded = await carritos.getCartById(id)
 
-    if(!productAdded) return res.status(404).send("Producto No Encontrado")
-    for (const key of  i);
-} )
+    if (!productAdded) return res.status(404).send("Producto No Encontrado")
+    for (const key of i);
+})
+
 
 
 
