@@ -24,7 +24,7 @@ app.set("views engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
 app.get("/", (req, res) => {
-    res.render("HOME")
+  res.render("HOME")
 })
 
 app.set("io", io);
@@ -32,7 +32,7 @@ app.set("io", io);
 app.use("/api/products", productRouter);
 app.use("/api/carts", carritoRouter);
 
-const server = httpServer.listen(PORT, () =>
+const server = httpServer.listen(port, () =>
   console.log(`Server running on port ${server.address().port}`)
 );
 

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { ProductManager } from "../../Managers/productManager.js";
 
+export const productos = new ProductManager("./products.json");
 
 const router = Router();
 
@@ -233,7 +234,7 @@ router.delete('/:id', async (req, res) => {
 
 
 }
-
+)
 
 
 export default router;
