@@ -32,7 +32,7 @@ app.set("io", io);
 app.use("/api/products", productRouter);
 app.use("/api/carts", carritoRouter);
 
-const server = httpServer.listen(PORT, () =>
+const server = httpServer.listen(port, () =>
   console.log(`Server running on port ${server.address().port}`)
 );
 
