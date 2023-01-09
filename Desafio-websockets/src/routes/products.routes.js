@@ -65,15 +65,15 @@ router.post("/", async (req, res) => {
       });
 
       req.app
-      .get("io")
-      .sockets.emit(
-        "hello",
-        "hola! posteaste un producto, te hablo desde product router!"
-      );
+        .get("io")
+        .sockets.emit(
+          "hello",
+          "hola! posteaste un producto, te hablo desde product router!"
+        );
 
-    req.app
-      .get("io")
-      .sockets.emit("products", await productos.getProducts());
+      req.app
+        .get("io")
+        .sockets.emit("products", await productos.getProducts());
 
       return res.send({ success: true, productAdded: productAdded });
     }
@@ -127,4 +127,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
- export default { router } 
+export { router as productRouter } 

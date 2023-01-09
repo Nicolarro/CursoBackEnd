@@ -1,12 +1,12 @@
 import express from "express";
-import { router as productRouter } from "./routes/products.routes.js";
+import { productRouter } from "./routes/products.routes.js";
 import carritoRouter from "./routes/carrito.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 import { productos } from "../Managers/indexManager.js";
-import { carrito } from "../Managers/indexManager.js";
+
 
 
 const port = 8080;
@@ -32,12 +32,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send("HOME")
+  res.render("HOME", )
 })
 
 app.set("io", io);
 
-app.use("/",)
 app.use("/api/products", productRouter);
 app.use("/api/carts", carritoRouter);
 
