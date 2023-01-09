@@ -1,12 +1,12 @@
 import express from "express";
 import { productRouter } from "./routes/products.routes.js";
 import { ViewsRouter } from "./routes/views.routes.js";
-import carritoRouter from "./routes/carrito.routes.js";
+import {carritoRouter} from "./routes/carrito.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
-import { productos } from "../Managers/indexManager.js";
+import { productos, carrito } from "../Managers/indexManager.js";
 
 const port = 8080;
 

@@ -1,11 +1,11 @@
 
 import { Router } from "express";
-import { ProductManager } from "../../Managers/productManager.js";
+import { productos } from "../../Managers/indexManager.js";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const products = await ProductManager.getProducts();
+  const products = await productos.getProducts();
 
   res.render("home", {
     products,

@@ -1,9 +1,7 @@
 import { Router } from "express";
-import { ProductManager } from "../../Managers/productManager.js";
+import { productos } from "../../Managers/indexManager.js";
 
 const router = Router();
-
-export const productos = new ProductManager("./products.json");
 
 /* TODO OK */
 router.get("/", async (req, res) => {
@@ -48,7 +46,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/* TODO OK */
+/* OK */
+
 router.post("/", async (req, res) => {
   try {
     const { title, description, price, thumbnail, code, stock } = req.body;
@@ -109,7 +108,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/* TODO OK */
+/* OK */
 router.delete("/:id", async (req, res) => {
   try {
     const { id: paramId } = req.params;
