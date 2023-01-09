@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "title": {
+      "title": "Producto Testing",
+      "description": "Testeando el producto1",
+      "price": 150,
+      "thumbnail": "www.google.com.ar",
+      "code": "bca123",
+      "stock": 50
+    }
+  }
+]

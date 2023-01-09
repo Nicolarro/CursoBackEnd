@@ -1,10 +1,13 @@
 import express from "express";
-import productRouter from "./routes/products.routes.js";
+import {router as productRouter} from "./routes/products.routes.js";
 import carritoRouter from "./routes/carrito.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
+import { productos}from "../Managers/indexManager.js";
+import { carrito } from "../Managers/indexManager.js";
+
 
 const port = 8080;
 
@@ -12,19 +15,23 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 
 app.engine(
-  "handlebar",
+  "hbs",
   handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" })
 );
+
+app.use(express.static("public"));
 
 app.set("views engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
-    res.render("HOME")
+    res.send("HOME")
 })
 
 app.set("io", io);
@@ -45,16 +52,16 @@ io.on("connection", async (socket) => {
 
   io.sockets.emit("hello", "HOLA!");
 
-  const products = await productManager.getProducts();
+  const products = await productos.getProducts();
 
   io.sockets.emit("products", products);
 
   socket.on("addProduct", async (product) => {
     try {
-      await productManager.saveProduct(product);
+      await productos.addProduct(product);
 
       // volvemos a enviar todos los productos
-      io.sockets.emit("products", await productManager.getProducts());
+      io.sockets.emit("products", await productos.getProducts());
     } catch (error) {
       console.log(error);
     }
