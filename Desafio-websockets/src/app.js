@@ -1,5 +1,6 @@
 import express from "express";
 import { productRouter } from "./routes/products.routes.js";
+import { ViewsRouter } from "./routes/views.routes.js";
 import carritoRouter from "./routes/carrito.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
@@ -7,16 +8,12 @@ import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
 import { productos } from "../Managers/indexManager.js";
 
-
-
 const port = 8080;
 
 const app = express();
 
-
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
-
 
 app.engine(
   "hbs",
@@ -31,12 +28,9 @@ app.set("views", `${__dirname}/views`);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.render("HOME", )
-})
-
 app.set("io", io);
 
+app.use("/", ViewsRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", carritoRouter);
 
