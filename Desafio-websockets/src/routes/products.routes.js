@@ -3,7 +3,7 @@ import { productos } from "../../Managers/indexManager.js";
 
 const router = Router();
 
-/* TODO OK */
+/*  OK */
 router.get("/", async (req, res) => {
   try {
     const { limit } = req.query;
@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     res.send({ success: false, error: "Error" });
   }
 });
-/* TODO OK */
+/*  OK */
 router.get("/:id", async (req, res) => {
   try {
     const { id: paramId } = req.params;
@@ -70,9 +70,7 @@ router.post("/", async (req, res) => {
           "hola! posteaste un producto, te hablo desde product router!"
         );
 
-      req.app
-        .get("io")
-        .sockets.emit("products", await productos.getProducts());
+      req.app.get("io").sockets.emit("products", await productos.getProducts());
 
       return res.send({ success: true, productAdded: productAdded });
     }
@@ -126,4 +124,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-export { router as productRouter } 
+export { router as productRouter };

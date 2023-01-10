@@ -48,6 +48,6 @@ router.put("/:pid", async (req, res) => {
   for (const key of i);
 });
 
-export default {carrito, productos}
+export { router as carritoRouter } 
 
 

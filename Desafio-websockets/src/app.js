@@ -1,7 +1,7 @@
 import express from "express";
 import { productRouter } from "./routes/products.routes.js";
 import { ViewsRouter } from "./routes/views.routes.js";
-import {carritoRouter} from "./routes/carrito.routes.js";
+import { carritoRouter } from "./routes/carrito.routes.js";
 import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { Server as HttpServer } from "http";
@@ -15,14 +15,11 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-app.engine(
-  "hbs",
-  handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" })
-);
-
 app.use(express.static("public"));
 
-app.set("views engine", "hbs");
+app.engine("hbs", handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" }));
+
+app.set("view engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
 app.use(express.json());

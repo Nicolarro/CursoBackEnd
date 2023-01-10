@@ -17,7 +17,6 @@ export class ProductManager {
   };
 
   getProducts = async () => {
-    this.read()
     const productsAll = await fs.promises.readFile(this.file, "utf-8");
     const productParsed = JSON.parse(productsAll);
     return productParsed;
@@ -39,6 +38,7 @@ export class ProductManager {
     const id = await this.getProductID();
 
     const existCode = products.some((product) => product.code === code);
+    
     // me esta dando true existCode, cuando no hay repetidos--> VERIFICAR
     console.log(existCode)
     if (!existCode) {
