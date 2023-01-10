@@ -6,7 +6,8 @@
             <th>Título</th>
             <th>Descripcion</th>
             <th>Precio</th>
-            <th>Miniatura</th>
+            <th>Codigo</th>
+            <th>Stock</th>
         </tr>
         {{#if products.length}}
         {{#each products}}
@@ -14,6 +15,8 @@
             <td>{{this.title}}</td>
             <td>{{this.description}}</td>
             <td>{{this.price}}</td>
+            <td>{{this.code}}</td>
+            <td>{{this.stock}}</td>
             <td><img height="72px" width="72px" src={{this.thumbnail}} /></td>
         </tr>
         {{/each}}

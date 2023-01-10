@@ -11,12 +11,13 @@ socket.on("products", (products) => {
             <td> ${product.title} </td>
             <td> ${product.description} </td>
             <td> ${product.price} </td>
+            <td> ${product.code} </td>
+            <td> ${product.stock} </td>
             <td> <img height="72px" width="72px" src=${product.thumbnail} /> </td>
         </tr>
     `
     )
     .join(" ");
-
   productsContainer.innerHTML = allProductsElements;
 });
 
@@ -31,6 +32,8 @@ createProductForm.addEventListener("submit", async (e) => {
     product[field[0]] = field[1];
   }
 
+  console.log(product)
+
   // podemos enviar un producto al servidor, usando fetch haciendo un post a la ruta de la api
 
   const response = await fetch("/api/products", {
@@ -39,13 +42,11 @@ createProductForm.addEventListener("submit", async (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  }); 
 
   const responseJson = await response.json();
   console.log(responseJson);
 
-  // o usando sockets
-  // socket.emit("addProduct", product);
 });
 
 socket.on("hello", (data) => console.log(data));
