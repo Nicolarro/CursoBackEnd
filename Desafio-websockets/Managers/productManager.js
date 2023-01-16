@@ -37,7 +37,7 @@ export class ProductManager {
 
     const id = await this.getProductID();
 
-    const existCode = products.some((product) => product.code === code);
+    const existCode = products.some((product) => product.code == code);
     
     // me esta dando true existCode, cuando no hay repetidos--> VERIFICAR
     console.log(existCode)
@@ -73,7 +73,7 @@ export class ProductManager {
   ) => {
     const products = await this.getProductById((id));
 
-    const productIndex = products.findIndex((product) => product.id === id);
+    const productIndex = products.findIndex((product) => product.id == id);
     if (productIndex === -1) {
       return res.status(404).send("Producto no encontrado")
     } else {

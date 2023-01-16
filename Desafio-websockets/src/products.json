@@ -66,5 +66,14 @@
     "description": "description",
     "price": "500",
     "code": "134"
+  },
+  {
+    "id": 9,
+    "title": "Producto Testing2",
+    "description": "Testeando el producto1",
+    "price": 150,
+    "thumbnail": "www.google.com.ar",
+    "code": "135",
+    "stock": 50
   }
 ]

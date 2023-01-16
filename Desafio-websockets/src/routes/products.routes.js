@@ -50,17 +50,17 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { title, description, price, code } = req.body;
-    if (!title || !description || !price /* || !thumbnail */ || !code ) {
+    const { title, description, price, thumbnail, code,stock } = req.body;
+    if (!title || !description || !price || !thumbnail || !code ) {
       return res.send({ success: false, error: "El campo es obligatorio" });
     } else {
       const productAdded = await productos.addProduct({
         title,
         description,
         price,
-/*         thumbnail, */
+        thumbnail,
         code,
-/*         stock, */
+        stock,
       });
 
       req.app
