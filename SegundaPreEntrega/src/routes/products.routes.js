@@ -1,138 +1,157 @@
 import { Router } from "express";
-import mongoose from "mongoose";
-import productsModel from "../../models/products.model.js";
-import { productos } from "../../Managers/indexManager.js";
+import  productos from "../../Managers/indexManager.js";
 
 const router = Router();
 
-/*  OK */
-router.get("/", async (req, res) => {
+//Mostrar todos los productos
+Router.get("/", async (req, res) => {
   try {
     const { sort, query, page, limit } = req.query;
-      const options = {
-        limit : limit || 5,
-        page: page || 1,
-        sort: {price: sort} || {price: 1},
-      }
+    const options = {
+      limit: limit || 5,
+      page: page || 1,
+      sort: { price: sort } || { price: 1 },
+      lean: true,
+    };
 
+    const products = await productos.getProducts(query, options);
 
-
-    const products = await productsModel.find().
-/*     if (!limit || limit < 1 || products.length < limit) {
-      return res.send({ sucess: true, products: products });
-    } else {
-      const productFiltered = productsModel.slice(0, limit);
-      res.send({ sucess: true, products: productFiltered });
-    } */
-
-
+    res.send({
+      status: "succes",
+      payload: products.docs,
+      totalPages: products.totalPages,
+      prevPage: products.prevPage,
+      nextPage: products.nextPage,
+      page: products.page,
+      hasPrevPage: products.hasPrevPage,
+      hasNextPage: products.hasNextPage,
+      prevLink: products.hasPrevPage
+        ? `/api/products?page=${products.prevPage}`
+        : null,
+      nextLink: products.hasNextPage
+        ? `/api/products?page=${products.nextPage}`
+        : null,
+    });
   } catch (error) {
     console.log(error);
-    res.send({ success: false, error: "Error" });
+
+    res.send({
+      status: "error",
+      error: "SOMETHING WENT WRONG",
+    });
   }
 });
-/*  OK */
-router.get("/:id", async (req, res) => {
+
+//Traer un solo prodcuto por id
+Router.get("/:pid", async (req, res) => {
   try {
-    const { id: paramId } = req.params;
-    const id = Number(paramId);
+    const { pid } = req.params;
 
-    if (Number.isNaN(id) || id < 0) {
-      return res.send({ success: false, error: "El id no es valido" });
-    }
+    const product = await productos.getProductById(pid);
 
-    const productsById = await productos.getProductById(id);
+    res.send({
+      status: "succes",
+      payload: product,
+    });
+  } catch (error) {
+    console.log(error.message);
 
-    if (!productsById) {
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
+  }
+});
+
+//Agrego un nuevo producto que llega por req.body
+Router.post("/", async (req, res) => {
+  try {
+    const newProduct = req.body;
+
+    if (!newProduct) {
       return res.send({
-        success: false,
-        error: "No se encontro el producto",
+        status: "error",
+        error: "EMPTY PRODUCT",
       });
-    } else {
-      res.send({ success: true, productsById: productsById });
     }
+
+    const result = await productos.addProduct(newProduct);
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
   } catch (error) {
     console.log(error);
-    res.send({ success: false, error: "Error" });
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
   }
 });
 
-/* OK */
-
-router.post("/", async (req, res) => {
+//Actualizar un producto
+Router.put("/:pid", async (req, res) => {
   try {
-    const { title, description, price, thumbnail, code,stock } = req.body;
-    if (!title || !description || !price || !thumbnail || !code ) {
-      return res.send({ success: false, error: "El campo es obligatorio" });
-    } else {
-      const productAdded = await productos.addProduct({
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-      });
+    const { pid } = req.params;
 
-      req.app
-        .get("io")
-        .sockets.emit(
-          "hello",
-          "hola! posteaste un producto, te hablo desde product router!"
-        );
+    const updates = req.body;
 
-      req.app.get("io").sockets.emit("products", await productos.getProducts());
+    const result = await productos.updateProduct(pid, updates);
 
-      return res.send({ success: true, productAdded: productAdded });
-    }
+    res.send({
+      status: "succes",
+      payload: result,
+    });
   } catch (error) {
     console.log(error);
-    return res.send({ success: false, message: "Ha ocurrido un error" });
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
   }
 });
 
-/* REVISAR */
-router.put("/:id", async (req, res) => {
+// Eliminar un producto
+Router.delete("/:pid", async (req, res) => {
   try {
-    const { id: paramId } = req.params;
-    const id = Number(paramId);
+    const { pid } = req.params;
 
-    if (Number.isNaN(id) || id < 0) {
-      res.send({ success: false, error: "Id is not valid" });
-    } else {
-      const { title, description, price, thumbnail, code, stock } = req.body;
-      const updateProduct = await productos.updateProduct(id, {
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-      });
-      res.send({ success: true, updateProduct: updateProduct });
-    }
+    const result = await productos.deleteProduct(pid);
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
   } catch (error) {
     console.log(error);
-    return res.send({ success: false, message: "Ha ocurrido un error" });
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
   }
 });
 
-/* OK */
-router.delete("/:id", async (req, res) => {
-  try {
-    const { id: paramId } = req.params;
-    const id = Number(paramId);
 
-    if (Number.isNaN(id) || id < 0) {
-      return res.send({ success: false, error: "Id invalido" });
-    } else {
-      const productoBorrado = await productos.deleteProduct(id);
-      console.log(productoBorrado);
-      return res.send({ success: true, productoBorrado: productoBorrado });
-    }
-  } catch (error) {
-    return res.send({ success: false, error: error });
-  }
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export { router as productRouter };

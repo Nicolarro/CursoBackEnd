@@ -18,7 +18,6 @@ const io = new IOServer(httpServer);
 app.use(express.static("public"));
 
 app.engine("hbs", handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" }));
-
 app.set("view engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
@@ -39,7 +38,6 @@ server.on("error", (error) => {
   console.log(error);
 });
 
-
 // Conexion a DB Mongo Atlas
 const MONGO_URI  = 'mongodb+srv://nicolas:JQ06zRLxcaq0cVa0@cluster0.y1vt4dq.mongodb.net/?retryWrites=true&w=majority'
 mongoose.set('strictQuery', false) 
@@ -48,7 +46,7 @@ mongoose.connect(MONGO_URI, error => {
         console.error('No se pudo conectar a la DB');
         return
     }
-cd 
+
     console.log('DB connected!');
     app.listen(8080, () => console.log('Server listenming...'))
 })

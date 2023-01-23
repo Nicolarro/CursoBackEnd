@@ -1,11 +1,11 @@
 import { ProductManager } from "./productManager.js";
 import { CartManager } from "./cartManager.js";
 
- const productos = new ProductManager("../src/products.json")
+ const productos = new ProductManager()
 
-const carrito = new CartManager("../src/carrito.json")
+const carrito = new CartManager()
 
 export default {
-    ProductManager,
-    CartManager
+    productos,
+    carrito,
 }
