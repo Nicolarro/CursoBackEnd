@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     // Primero obtenemos los datos que necesitaremos, segün 10 definido en nuestro schema.
     let {first_name, last_name, email}= req.body
     // Evaluamos que los valores si existan
-    if( !first_name,!last_name, !email) return res.send({status: "error", error: "Incomplete values"});
+    if( !first_name, !last_name, !email) return res.send({status: "error", error: "Incomplete values"});
     // Si todo estå en orden, pedimos a mongoose que inserte el nuevo documento.
     //Nota que aqui, para poder crear un modelo, utilizaremos el
     let result
@@ -31,6 +31,7 @@ router.get('/', async (req, res) => {
     last_name,
     email
     })
+    console.log(result)
     //Dev01vemos el usuario recién creado.l
     res.send ( {status : "success" , payload : result})
     })
