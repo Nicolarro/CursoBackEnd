@@ -12,8 +12,6 @@ const port = 8080;
 
 const app = express();
 
-const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
 
 app.use(express.static("public"));
 

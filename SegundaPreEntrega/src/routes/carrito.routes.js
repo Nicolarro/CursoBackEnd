@@ -5,50 +5,184 @@ import carrito from "../../Managers/indexManager.js";
 const router = Router();
 
 
-router.get("/", async (req, res) => {
-  const carts = await carrito.getCart();
-  console.log(carts);
-  res.json({ carts });
-});
+// Mostrar todos los carritos
+Router.get("/", async (req, res) => {
+  try {
+    const carts = await carrito.getCarts();
 
-router.post("/", async (req, res) => {
-  const idCarrito = await carrito.getCartID();
-  const carrito = { idCarrito, products: [] };
-  const nuevoCarrito = await carrito.addCart(carrito);
-  res.send({ success: true, nuevoCarrito: nuevoCarrito });
-});
+    res.send({
+      status: "succes",
+      payload: carts,
+    });
+  } catch (error) {
+    console.log(error);
 
-router.get("/:cid", async (req, res) => {
-  const idCarrito = parseInt(req.params.cid);
-  const findCarrito = await carrito.getCartById(idCarrito);
-  if (!findCarrito) {
-    res.send({ success: false, message: "Cart Not Found" });
-  } else {
-    res.send({ success: true, carrito: findCarrito });
+    res.send({
+      status: "error",
+      error: error.message || "SOMTHING WENT WRONG",
+    });
   }
 });
 
-router.post("/:id/products/:pid", async (req, res) => {
-  const idCarrito = parseInt(req.params.id);
-  const idProducto = parseInt(req.params.idProducto);
-  const carrito = await carrito.getCartById(idCarrito);
-  const carritoJson = carrito[0];
-  const producto = await productos.getById(idProducto);
-  const productoJson = producto[0];
-  await carritoJson.productos.push(productoJson);
-  await carrito.modify(idCarrito, carritoJson);
-  res.status(201).send(carritoJson);
+//Crea un nuevo carrito
+Router.post("/", async (req, res) => {
+  try {
+    const result = await carrito.createCart();
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
+  }
 });
 
-router.put("/:pid", async (req, res) => {
-  const id = parseInt(req.params.pid);
-  const productToUpdate = req.body;
-  const productAdded = await carrito.getCartById(id);
+//Muestra un carrito en particular y sus productos
+Router.get("/:cid", async (req, res) => {
+  try {
+    const { cid } = req.params;
 
-  if (!productAdded) return res.status(404).send("Producto No Encontrado");
-  for (const key of i);
+    const result = await carrito.getCartById(cid);
+
+    if (!result) {
+      return res.send({
+        status: "error",
+        error: "CART NOT FOUND",
+      });
+    }
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WRONG",
+    });
+  }
 });
 
-export { router as carritoRouter } 
+// Agrego un producto al carrito
+Router.post("/:cid/product/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
 
+    const result = carrito.addProductToCart(cid, pid);
 
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMTHING WENT WRONG",
+    });
+  }
+});
+
+// Eliminar del carrito el producto seleccionado
+Router.delete("/:cid/product/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+
+    const result = await carrito.deleteProductFromCart(cid, pid);
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMETHING WENT WORNG",
+    });
+  }
+});
+
+// Agregar al carrito un array de productos
+Router.put("/:cid", async (req, res) => {
+  try {
+    const { cid } = req.params;
+
+    const products = req.body;
+
+    const result = await carrito.addArrayOfProudcts(
+      cid,
+      products
+    );
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMTHING WENT WRONG",
+    });
+  }
+});
+
+// Actualizar la cantidad de un producto
+Router.put("/:cid/product/:pid", async (req, res) => {
+  try {
+    const { quantity } = req.body;
+
+    const { cid, pid } = req.params;
+
+    const result = await carrito.addQuantityToProduct(
+      quantity,
+      cid,
+      pid
+    );
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMTHING WENT WRONG",
+    });
+  }
+});
+
+//Vaciar el carrito
+Router.delete("/:cid", async (req, res) => {
+  try {
+    const { cid } = req.params;
+
+    const result = await carrito.emptyCart(cid);
+
+    res.send({
+      status: "succes",
+      payload: result,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.send({
+      status: "error",
+      error: error.message || "SOMTHING WENT WRONG",
+    });
+  }
+});
