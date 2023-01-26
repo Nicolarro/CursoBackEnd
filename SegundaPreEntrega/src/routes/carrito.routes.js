@@ -1,12 +1,12 @@
-import { Router } from "express";
+import { Router } from 'express'
 import {carrito} from "../../Managers/indexManager.js";
 
 
-const router = Router();
+const router = Router()
 
 
 // Mostrar todos los carritos
-Router.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const carts = await carrito.getCarts();
 
@@ -25,7 +25,7 @@ Router.get("/", async (req, res) => {
 });
 
 //Crea un nuevo carrito
-Router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const result = await carrito.createCart();
 
@@ -44,7 +44,7 @@ Router.post("/", async (req, res) => {
 });
 
 //Muestra un carrito en particular y sus productos
-Router.get("/:cid", async (req, res) => {
+router.get("/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
 
@@ -72,7 +72,7 @@ Router.get("/:cid", async (req, res) => {
 });
 
 // Agrego un producto al carrito
-Router.post("/:cid/product/:pid", async (req, res) => {
+router.post("/:cid/product/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
 
@@ -93,7 +93,7 @@ Router.post("/:cid/product/:pid", async (req, res) => {
 });
 
 // Eliminar del carrito el producto seleccionado
-Router.delete("/:cid/product/:pid", async (req, res) => {
+router.delete("/:cid/product/:pid", async (req, res) => {
   try {
     const { cid, pid } = req.params;
 
@@ -114,7 +114,7 @@ Router.delete("/:cid/product/:pid", async (req, res) => {
 });
 
 // Agregar al carrito un array de productos
-Router.put("/:cid", async (req, res) => {
+router.put("/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
 
@@ -140,7 +140,7 @@ Router.put("/:cid", async (req, res) => {
 });
 
 // Actualizar la cantidad de un producto
-Router.put("/:cid/product/:pid", async (req, res) => {
+router.put("/:cid/product/:pid", async (req, res) => {
   try {
     const { quantity } = req.body;
 
@@ -167,7 +167,7 @@ Router.put("/:cid/product/:pid", async (req, res) => {
 });
 
 //Vaciar el carrito
-Router.delete("/:cid", async (req, res) => {
+router.delete("/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
 
@@ -186,3 +186,5 @@ Router.delete("/:cid", async (req, res) => {
     });
   }
 });
+
+export {router as carritoRouter } ;

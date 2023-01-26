@@ -1,13 +1,13 @@
 
 import { Router } from "express";
-import  {productos, carrito} from "../../Managers/indexManager.js";
+import { productos, carrito } from "../../Managers/indexManager.js";
 
 
 const router = Router();
 
 
 //Mostrar todos los productos
-Router.get("/products", async (req, res) => {
+router.get("/products", async (req, res) => {
   try {
     const { limit, page, sort, query } = req.query;
     const options = {
@@ -46,7 +46,7 @@ Router.get("/products", async (req, res) => {
 });
 
 // Muestra un prodcuto detallado
-Router.get("/products/:pid", async (req, res) => {
+router.get("/products/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -67,7 +67,7 @@ Router.get("/products/:pid", async (req, res) => {
 });
 
 // Muestra un carrito
-Router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
 

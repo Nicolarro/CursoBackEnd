@@ -8,9 +8,7 @@ export class CartManager {
       const newCart = {
         cart: [],
       };
-
       const result = await cartModel.create(newCart);
-
       return result;
     } catch (error) {
       console.log(error);

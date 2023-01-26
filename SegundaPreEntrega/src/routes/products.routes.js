@@ -4,7 +4,7 @@ import  {productos, carrito} from "../../Managers/indexManager.js";
 const router = Router();
 
 //Mostrar todos los productos
-Router.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { sort, query, page, limit } = req.query;
     const options = {
@@ -43,7 +43,7 @@ Router.get("/", async (req, res) => {
 });
 
 //Traer un solo prodcuto por id
-Router.get("/:pid", async (req, res) => {
+router.get("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -64,7 +64,7 @@ Router.get("/:pid", async (req, res) => {
 });
 
 //Agrego un nuevo producto que llega por req.body
-Router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newProduct = req.body;
 
@@ -92,7 +92,7 @@ Router.post("/", async (req, res) => {
 });
 
 //Actualizar un producto
-Router.put("/:pid", async (req, res) => {
+router.put("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -115,7 +115,7 @@ Router.put("/:pid", async (req, res) => {
 });
 
 // Eliminar un producto
-Router.delete("/:pid", async (req, res) => {
+router.delete("/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
 
@@ -134,24 +134,6 @@ Router.delete("/:pid", async (req, res) => {
     });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export { router as productRouter };
