@@ -13,7 +13,7 @@ export class ProductManager {
 
         return products;
       }
-      
+
       if (
         query === "DEPORTIVAS" ||
         query === "TRAINING" ||

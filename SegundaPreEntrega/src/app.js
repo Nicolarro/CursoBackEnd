@@ -19,12 +19,7 @@ app.set("view engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/", ViewsRouter);
-app.use("/api/products", productRouter);
-app.use("/api/carts", carritoRouter);
-
+app.use(express.urlencoded({ extended: true }))
 
 // Conexion a DB Mongo Atlas
 const MONGO_URI = 'mongodb+srv://nicolas:JQ06zRLxcaq0cVa0@cluster0.y1vt4dq.mongodb.net/?retryWrites=true&w=majority'
@@ -34,7 +29,16 @@ mongoose.connect(MONGO_URI, error => {
     console.error('No se pudo conectar a la DB');
     return
   }
-
   console.log('DB connected!');
   app.listen(port, () => console.log('Server listenming...'))
 })
+
+app.use("/", ViewsRouter);
+app.use("/api/products", productRouter);
+app.use("/api/carts", carritoRouter);
+
+
+
+
+
+

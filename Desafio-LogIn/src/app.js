@@ -6,8 +6,11 @@ import handlebars from "express-handlebars";
 import __dirname from "./dirname.js";
 import { productos, carrito } from "../Managers/indexManager.js";
 import session from "express-session";
+import { FileStore } from "session-file-store";
+import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 
+const fileStorage = FileStore(session) 
 
 const app = express();
 
