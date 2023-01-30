@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "cursobackend",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nicolarro/CursoBackEnd.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nicolarro/CursoBackEnd/issues"
+  },
+  "homepage": "https://github.com/Nicolarro/CursoBackEnd#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "mongoose": "^6.9.0",
+    "mongoose-paginate-v2": "^1.7.1",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.4"
+  }
+}

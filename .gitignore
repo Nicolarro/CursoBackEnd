@@ -2,4 +2,6 @@ node_modules/
 notas.txt
 productos.txt
 notas.js
+products.json
+carrito.json
 
