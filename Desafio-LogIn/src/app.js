@@ -8,9 +8,10 @@ import { productos, carrito } from "../Managers/indexManager.js";
 import session from "express-session";
 import { FileStore } from "session-file-store";
 import MongoStore from "connect-mongo";
+import { AuthRouter } from "./routes/auth.router.js";
 import mongoose from "mongoose";
 
-const fileStorage = FileStore(session) 
+const fileStorage = FileStore(session);
 
 const app = express();
 
@@ -18,30 +19,48 @@ const port = 8080;
 
 app.use(express.static("public"));
 
-app.engine("hbs", handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" }));
+app.engine(
+  "hbs",
+  handlebars.engine({ extname: ".hbs", defaultLayout: "main.hbs" })
+);
 app.set("view engine", "hbs");
 app.set("views", `${__dirname}/views`);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", ViewsRouter);
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: MONGOOSE_URI,
+      dbName: "ecommerce",
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      ttl: 200,
+    }),
+    secret: "india",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+app.use("/", authRouter);
+app.use("/home", ViewsRouter);
 app.use("/api/products", productRouter);
 app.use("/api/carts", carritoRouter);
 
-
 // Conexion a DB Mongo Atlas
-const MONGO_URI = 'mongodb+srv://nicolas:JQ06zRLxcaq0cVa0@cluster0.y1vt4dq.mongodb.net/?retryWrites=true&w=majority'
-mongoose.set('strictQuery', false)
-mongoose.connect(MONGO_URI, error => {
+const MONGO_URI =
+  "mongodb+srv://nicolas:JQ06zRLxcaq0cVa0@cluster0.y1vt4dq.mongodb.net/?retryWrites=true&w=majority";
+mongoose.set("strictQuery", false);
+mongoose.connect(MONGO_URI, (error) => {
   if (error) {
-    console.error('No se pudo conectar a la DB');
-    return
+    console.error("No se pudo conectar a la DB");
+    return;
   }
 
-  console.log('DB connected!');
-  app.listen(port, () => console.log('Server listenming...'))
-})
-
-
-
+  console.log("DB connected!");
+  app.listen(port, () => console.log("Server listenming..."));
+});

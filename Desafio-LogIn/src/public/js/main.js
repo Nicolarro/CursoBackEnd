@@ -32,7 +32,7 @@ createProductForm.addEventListener("submit", async (e) => {
     product[field[0]] = field[1];
   }
 
-  console.log(product)
+  console.log(product);
 
   // podemos enviar un producto al servidor, usando fetch haciendo un post a la ruta de la api
 
@@ -42,11 +42,10 @@ createProductForm.addEventListener("submit", async (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-  }); 
+  });
 
   const responseJson = await response.json();
   console.log(responseJson);
-
 });
 
 socket.on("hello", (data) => console.log(data));

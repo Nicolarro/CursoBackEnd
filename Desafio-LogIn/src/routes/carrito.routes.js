@@ -1,9 +1,7 @@
-import { Router } from 'express'
-import {carrito} from "../../Managers/indexManager.js";
+import { Router } from "express";
+import { carrito } from "../../Managers/indexManager.js";
 
-
-const router = Router()
-
+const router = Router();
 
 // Mostrar todos los carritos
 router.get("/", async (req, res) => {
@@ -120,10 +118,7 @@ router.put("/:cid", async (req, res) => {
 
     const products = req.body;
 
-    const result = await carrito.addArrayOfProudcts(
-      cid,
-      products
-    );
+    const result = await carrito.addArrayOfProudcts(cid, products);
 
     res.send({
       status: "succes",
@@ -146,11 +141,7 @@ router.put("/:cid/product/:pid", async (req, res) => {
 
     const { cid, pid } = req.params;
 
-    const result = await carrito.addQuantityToProduct(
-      quantity,
-      cid,
-      pid
-    );
+    const result = await carrito.addQuantityToProduct(quantity, cid, pid);
 
     res.send({
       status: "succes",
@@ -187,4 +178,4 @@ router.delete("/:cid", async (req, res) => {
   }
 });
 
-export {router as carritoRouter } ;
+export { router as carritoRouter };

@@ -2,9 +2,7 @@
 import { Router } from "express";
 import { productos, carrito } from "../../Managers/indexManager.js";
 
-
 const router = Router();
-
 
 //Mostrar todos los productos
 router.get("/products", async (req, res) => {
