@@ -1,44 +1,41 @@
-<div>
-    <h1 class="title">Lista de productos</h1>
-
-    <table class="product-list">
-        <tr>
-            <th>Título</th>
-            <th>Descripcion</th>
-            <th>Precio</th>
-            <th>Codigo</th>
-            <th>Cantidad</th>
-        </tr>
-        {{#if products.length}}
-        {{#each products}}
-        <tr>
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.title}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.price}}</td>
-            <td>{{this.code}}</td>
-            <td>{{this.quantity}}</td>
-            <td><img height="72px" width="72px" src={{this.thumbnail}} /></td>
-        </tr>
+<main>
+    <div class="pagination__container">
+        <div class="filters__container">
+            <h4>Filters:</h4>
+            <div>category</div>
+            <button class="pagination__button">most expensive</button>
+            <button class="pagination__button">less expensive</button>
+        </div>
+        <div class="pages__container">
+            <a href={{response.prevLink}}><button class="pagination__button">Anterior</button></a>
+            <a href={{response.nextLink}}><button class="pagination__button">Siguiente</button></a>
+        </div>
+    </div>
+    <div class="products__container">
+        {{#each response.payload}}
+        <div class="product__container">
+            <div class="product__category">
+                <span>{{this.category}}</span>
+            </div>
+            <h3 class="product__title">{{this.title}}</h3>
+            <div class="product__img--container">
+                <img src={{this.thumbnail}} alt={{this.title}} />
+            </div>
+            <h4 class="product__price">${{this.price}}</h4>
+            <a href="/products/{{this._id}}"><button class="product__button">Info</button></a>
+        </div>
         {{/each}}
-        {{/if}}
-    </table>
-
-</div>
-
-
-<style>
-    table,
-    th,
-    td {
-        border: 1px solid;
-    }
-
-    .title {
-        text-align: center;
-    }
-
-    .product-list {
-        width: 100%;
-    }
-</style>
+    </div>
+    <div class="pagination__container">
+        <div class="filters__container">
+            <h4>Filters:</h4>
+            <div>category</div>
+            <button class="pagination__button">most expensive</button>
+            <button class="pagination__button">less expensive</button>
+        </div>
+        <div class="pages__container">
+            <a href={{response.prevLink}}><button class="pagination__button">Anterior</button></a>
+            <a href={{response.nextLink}}><button class="pagination__button">Siguiente</button></a>
+        </div>
+    </div>
+</main>
