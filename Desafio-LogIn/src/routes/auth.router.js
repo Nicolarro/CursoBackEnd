@@ -1,5 +1,5 @@
 import express from "express";
-import userManager from "../../Managers/indexManager.js";
+import user from "../../Managers/indexManager.js";
 
 const Router = express.Router();
 
@@ -22,7 +22,7 @@ Router.post("/login", async (req, res) => {
       return res.redirect("/home/products");
     }
 
-    const user = await UsersManager.userLogin(email, password);
+    const user = await user.userLogin(email, password);
 
     if (!user) {
       res.status(401, { error: "Usuario o contrasena incorrecta" });
@@ -55,7 +55,7 @@ Router.post("/create", async (req, res) => {
   try {
     const newUser = req.body;
 
-    const user = await Manager.UsersManager.userCreate(newUser);
+    const user = await user.userCreate(newUser);
 
     if (!user) {
       return res.redirect("/register");
@@ -74,7 +74,7 @@ Router.get("/admin", async (req, res) => {
   try {
     const role = req.session.user.role;
 
-    const users = await Manager.UsersManager.getAllUser();
+    const users = await user.getAllUser();
 
     if (role === "admin") {
       return res.render("admin", {
