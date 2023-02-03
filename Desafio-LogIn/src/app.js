@@ -15,6 +15,8 @@ const fileStorage = FileStore(session);
 
 const app = express();
 
+const port = 8080;
+
 const uri =
   "mongodb+srv://nicolas:JQ06zRLxcaq0cVa0@cluster0.y1vt4dq.mongodb.net/?retryWrites=true&w=majority";
 
